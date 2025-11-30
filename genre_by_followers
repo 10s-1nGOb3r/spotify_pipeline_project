@@ -1,25 +1,25 @@
 CREATE VIEW `genre_total_flwrs2` AS
-WITH genre_flwrs AS (
+    WITH genre_flwrs AS (
+        SELECT 
+            genr.name AS genre,
+            SUM(art.followers) AS followers
+        FROM artists art
+        JOIN artist_genres arge 
+            ON arge.artist_id = art.spotify_id
+        JOIN genres genr 
+            ON genr.id_genre = arge.genre_id
+        WHERE art.followers IS NOT NULL
+        GROUP BY genr.name
+    )
     SELECT 
-        genr.name AS genre,
-        SUM(art.followers) AS followers
-    FROM artists art
-    JOIN artist_genres arge 
-        ON arge.artist_id = art.spotify_id
-    JOIN genres genr 
-        ON genr.id_genre = arge.genre_id
-    WHERE art.followers IS NOT NULL
-    GROUP BY genr.name
-)
-SELECT 
-    genre_flwrs.genre AS genre1,
-    genre_flwrs.followers AS followers1,
-    ROUND(
-        (
-            genre_flwrs.followers 
-            / SUM(genre_flwrs.followers) OVER ()
-        ) * 100,
-        2
-    ) AS flwrs_perc
-FROM genre_flwrs
-ORDER BY genre_flwrs.followers DESC;
+        genre_flwrs.genre AS genre1,
+        genre_flwrs.followers AS followers1,
+        ROUND(
+            (
+                genre_flwrs.followers 
+                / SUM(genre_flwrs.followers) OVER ()
+            ) * 100,
+            2
+        ) AS flwrs_perc
+    FROM genre_flwrs
+    ORDER BY genre_flwrs.followers DESC;
