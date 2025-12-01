@@ -1,4 +1,4 @@
-CREATE VIEW `genre_total_flwrs` AS
+CREATE VIEW genre_total_flwrs AS
 WITH genre_flwrs AS (
     SELECT 
         genr.name AS genre,
