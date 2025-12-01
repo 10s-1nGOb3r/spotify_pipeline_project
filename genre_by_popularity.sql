@@ -1,8 +1,4 @@
-CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
-VIEW `view_genre_pop` AS
+CREATE VIEW `view_genre_pop` AS
     SELECT 
         `genr`.`name` AS `genre`,
         ROUND(AVG(`art`.`popularity`), 0) AS `popularity`
